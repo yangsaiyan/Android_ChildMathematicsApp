@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Mobile_Android_ChildMathematicsApp"
         tools:targetApi="31">
         <activity
+            android:name=".ComposingNumbers"
+            android:exported="false" />
+        <activity
+            android:name=".OrderingNumbers"
+            android:exported="false" />
+        <activity
             android:name=".Home"
             android:exported="false" />
         <activity

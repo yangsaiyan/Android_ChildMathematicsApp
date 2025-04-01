@@ -10,15 +10,28 @@ import android.widget.Button;
 
 public class Home extends Fragment {
 
+    private Button compareButton, orderButton, composeButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_home, container, false);
 
-        Button button = view.findViewById(R.id.compareButton);
-        button.setOnClickListener(v -> {
+        compareButton = view.findViewById(R.id.compareButton);
+        orderButton = view.findViewById(R.id.orderingButton);
+        composeButton = view.findViewById(R.id.composingButton);
+
+        compareButton.setOnClickListener(v -> {
             ((MainActivity)requireActivity()).loadFragment(new CompareNumbers(), true);
         });
+
+        orderButton.setOnClickListener(v -> {
+            ((MainActivity)requireActivity()).loadFragment(new OrderingNumbers(), true);
+        });
+
+        composeButton.setOnClickListener(v -> {
+            ((MainActivity)requireActivity()).loadFragment(new ComposingNumbers(), true);
+        });
+
 
         return view;
     }
