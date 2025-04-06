@@ -58,7 +58,9 @@ public class CompareNumbers extends Fragment {
         });
 
         answer.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            //if got button selected
             if (isChecked) {
+                //check which button selected
                 if (checkedId == R.id.greaterButton) {
 
                     isGreater = true;
@@ -74,6 +76,7 @@ public class CompareNumbers extends Fragment {
         return view;
     }
 
+    //This function generate two random numbers from 0 to 999
     public void generateRandomNumbers() {
 
         for (int i = 0; i < randomNumbers.length; i++){
@@ -89,36 +92,40 @@ public class CompareNumbers extends Fragment {
         number2.setText(String.valueOf(randomNumbers[1]));
     }
 
+    //This function check the answer selected by the player
     public void checkAnswer(View view) {
 
         boolean isCorrect;
-
+        //if nothing selected
         if(displaySelection.getText() == "?"){
             Snackbar.make(view, "Please select an answer!",
                     Snackbar.LENGTH_SHORT).show();
             return;
         }
-
+        //Selected Greater than
         if(isGreater){
             isCorrect = (randomNumbers[0] > randomNumbers[1]);
         }
-        else {
+        else {//Selected Lesser than
             isCorrect = (randomNumbers[0] < randomNumbers[1]);
         }
 
         clearAll(isCorrect, view);
     }
 
+    //This function clears selected answer and re-generate random numbers again when the player answer the question correctly
     public void clearAll(boolean isCorrect, View view) {
 
+        //if correct
         if(isCorrect){
             winStreak++;
             new android.os.Handler().postDelayed(() -> {
-                generateRandomNumbers();
-                answer.clearChecked();
+                generateRandomNumbers(); //trigger generate numbers again
+                answer.clearChecked(); //clear selected answer
                 displaySelection.setText("?");
                 isGreater = false;
             }, 1000);
+            //Trigger a snackbar(Popup) to show current state
             Snackbar.make(view, "Correct! Current Win Streak: " + winStreak + ".",
                     Snackbar.LENGTH_SHORT).show();
         } else {

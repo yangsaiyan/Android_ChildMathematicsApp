@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
                 .setCustomAnimations(
                         R.anim.slide_in_down,    // enter
                         R.anim.slide_out_up,    // exit
-                        R.anim.slide_in_up,     // popEnter (when fragment is popped from back stack)
-                        R.anim.slide_out_down   // popExit (when fragment is popped from back stack)
+                        R.anim.slide_in_up,     // popEnter
+                        R.anim.slide_out_down   // popExit
                 )
                 .replace(R.id.fragment_container, fragment);
 

@@ -87,6 +87,7 @@ public class ComposingNumbers extends Fragment {
         checkAnswer(view);
     }
 
+    //Remove selected button (uncheck)
     public void onClickRemove(Button button) {
 
         for (int i = 0; i < selectedNumber.length; i++) {
@@ -99,6 +100,7 @@ public class ComposingNumbers extends Fragment {
         }
     }
 
+    //Select a button (check)
     public boolean checkSelected(Button button) {
 
         for (int number: selectedNumber){
@@ -109,16 +111,18 @@ public class ComposingNumbers extends Fragment {
         return false;
     }
 
+    //Generate a target number (Question)
     public void generateRandomNumber() {
         selectedNumber = new int[2];
         buttonNumbers = new int[9];
-        if(round < 4) {
+        if(round < 4) { //Difficulty Easy
             randomNumber = (int) (Math.random() * 10);
+            //Target number cannot be 0, 1, 2 because random generate numbers will not duplicate, so re generate again when condition met
             if(randomNumber > 9 || randomNumber == 0 || randomNumber == 1 || randomNumber == 2) generateRandomNumber();
-        } else if(round < 7){
+        } else if(round < 7){ //Difficulty Medium
             randomNumber = (int) (Math.random() * 100);
             if(randomNumber > 99 || randomNumber == 0) generateRandomNumber();
-        } else {
+        } else { //Difficulty Hard
             randomNumber = (int) (Math.random() * 1000);
             if(randomNumber > 999 || randomNumber == 0) generateRandomNumber();
         }
@@ -126,20 +130,21 @@ public class ComposingNumbers extends Fragment {
         generateButtonNumbers();
     }
 
+    //Generate a group (9 numbers) of numbers for players to select
     public void generateButtonNumbers() {
         String[] c = calAnswer().split("/");
         int a = Integer.parseInt(c[0]);
         int b = Integer.parseInt(c[1]);
-        if(a + b < 3) {
+        if(a + b < 3) { //if = 0, 1, 2 regenerate to prevent negative number of lesser than 3
             generateButtonNumbers();
         }
 
-        if (round < 4) {
+        if (round < 4) { // Difficulty Easy 1 - 9
 
             for (int i = 0; i < buttonNumbers.length; i++) {
                 buttonNumbers[i] = i + 1;
             }
-        } else if (round < 7) {
+        } else if (round < 7) {// Difficulty Medium 1 - 99
 
             for (int i = 0; i < buttonNumbers.length; i++) {
                 if (i == 0) buttonNumbers[i] = a;
@@ -147,7 +152,7 @@ public class ComposingNumbers extends Fragment {
                 else buttonNumbers[i] = (int) (Math.random() * 100);
             }
             checkDupAndNeg();
-        } else {
+        } else {// Difficulty Hard 1 - 999
 
             for (int i = 0; i < buttonNumbers.length; i++) {
                 if (i == 0) buttonNumbers[i] = a;
@@ -160,6 +165,7 @@ public class ComposingNumbers extends Fragment {
         printButtonText(buttons);
     }
 
+    //To make sure generated numbers won't duplicate and are negative
     public void checkDupAndNeg(){
         for(int i = 0; i < buttonNumbers.length; i++){
             for(int j = 0; j < i; j++){
@@ -169,6 +175,8 @@ public class ComposingNumbers extends Fragment {
             }
         }
     }
+
+    //Logic to calculate two answers sum up to target number randomly, to make sure there are correct answers everytime
     public String calAnswer() {
         int c, d;
         if (round < 4) {
@@ -185,6 +193,7 @@ public class ComposingNumbers extends Fragment {
         return (String.valueOf(c) + "/" + String.valueOf(d));
     }
 
+    //To shuffle the order of the array because answers are index 0, 1 everytime random numbers generated
     private void shuffleArray(int[] array) {
         Random rnd = new Random();
         for (int i = array.length - 1; i > 0; i--) {
@@ -195,12 +204,14 @@ public class ComposingNumbers extends Fragment {
         }
     }
 
+    //To print the button text (Number)
     public void printButtonText(Button[] buttons) {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setText(String.valueOf(buttonNumbers[i]));
         }
     }
 
+    //To check answer of two selected button
     public void checkAnswer(View view) {
 
         if(selectedNumber[0] == 0 || selectedNumber[1] == 0) {
@@ -217,6 +228,7 @@ public class ComposingNumbers extends Fragment {
         }
     }
 
+    //Reset selected button style to default
     public void clearButton() {
         for (Button button: buttons){
             button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main));

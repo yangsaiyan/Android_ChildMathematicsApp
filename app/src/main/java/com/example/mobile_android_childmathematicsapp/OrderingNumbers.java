@@ -91,15 +91,16 @@ public class OrderingNumbers extends Fragment {
         return view;
     }
 
+    //Generate a group of random numbers according to current difficulty
     public void generateRandomNumbers() {
 
         generateRandomOrder();
         clickCount = 0;
         if(round <= 3){
             difficulty.setText("Difficulty: Easy");
-            playerNumbers = new int[3];
-            randomNumbers = new int[3];
-            for (int i = 0; i < 3; i++){
+            playerNumbers = new int[3]; //declare new int array
+            randomNumbers = new int[3]; //declare new int array
+            for (int i = 0; i < 3; i++){ //generate one row three numbers from 1 - 9
                 int randomNumber;
                 do {
                     randomNumber = (int) (Math.random() * 10);
@@ -110,7 +111,7 @@ public class OrderingNumbers extends Fragment {
                 }
                 randomNumbers[i] = randomNumber;
             }
-        } else if(round <= 9){
+        } else if(round <= 9){ //generate two rows six numbers from 1 - 99
             difficulty.setText("Difficulty: Medium");
             tableRows[1].setVisibility(View.VISIBLE);
             tableRows[4].setVisibility(View.VISIBLE);
@@ -127,7 +128,7 @@ public class OrderingNumbers extends Fragment {
                 }
                 randomNumbers[i] = randomNumber;
             }
-        } else {
+        } else { //generate threes rows nine numbers from 1 - 999
             difficulty.setText("Difficulty: Hard");
             tableRows[2].setVisibility(View.VISIBLE);
             tableRows[5].setVisibility(View.VISIBLE);
@@ -148,6 +149,7 @@ public class OrderingNumbers extends Fragment {
         checkDuplicate();
     }
 
+    //To check if there are any duplicate numbers
     public void checkDuplicate() {
         for (int randomNumber : randomNumbers) {
             int checkDup = 0;
@@ -160,29 +162,32 @@ public class OrderingNumbers extends Fragment {
         }
     }
 
+    //This function will change ? => (selected number) to display selected number
     public void clickAndDisplay(String buttonText, View view, Button button) {
-        if(checkClicked(Integer.parseInt(buttonText))){
+        if(checkClicked(Integer.parseInt(buttonText))){ //if clicked a selected button, then uncheck it.
             removeClicked(Integer.parseInt(buttonText));
             clickCount--;
             redisplayTextview();
             button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main));
             button.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary));
-        } else {
+        } else { //if clicked a not selected button, then check it.
             playerNumbers[clickCount] = Integer.parseInt(buttonText);
             setTextViewDisplay(buttonText);
             clickCount++;
             button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary));
             button.setTextColor(ContextCompat.getColor(requireContext(), R.color.main));
         }
-        if(randomNumbers.length == clickCount){
+        if(randomNumbers.length == clickCount){ //if array length is equal to click count then will trigger check answer function to check answer
             checkAnswer(view);
         }
     }
 
+    //This function make TextView to display selected button (Content which is a random generated number), so that players can see what they selected
     public void setTextViewDisplay(String buttonText) {
         textViews[clickCount].setText(buttonText);
     }
 
+    //To check if selected button is clicked (checked - which means selected previously) or not
     public boolean checkClicked(int clickedNumber) {
         boolean isClicked = false;
 
@@ -195,6 +200,7 @@ public class OrderingNumbers extends Fragment {
         return isClicked;
     }
 
+    //To remove selected button
     public void removeClicked(int clickedNumber) {
         int[] temp = new int[randomNumbers.length];
         int tempCount = 0;
@@ -209,6 +215,7 @@ public class OrderingNumbers extends Fragment {
         playerNumbers = temp.clone();
     }
 
+    //Redisplay the value again when there are changes
     public void redisplayTextview() {
         for (int i = 0; i < playerNumbers.length; i++){
             if(i < clickCount) {
@@ -219,6 +226,7 @@ public class OrderingNumbers extends Fragment {
         }
     }
 
+    //This functions checks answer according to current order
     public void checkAnswer(View view) {
 
         boolean isCorrect = true;
@@ -254,12 +262,14 @@ public class OrderingNumbers extends Fragment {
         }
     }
 
+    //This function clears all textview by changing their value to "?"
     public void clearDisplayTextview() {
         for(TextView tv : textViews){
             tv.setText("?");
         }
     }
 
+    //This function clears all selected button color (Reset to default)
     public void clearButtonColor() {
         for(Button button: buttons){
             button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main));
@@ -267,6 +277,7 @@ public class OrderingNumbers extends Fragment {
         }
     }
 
+    //This function will generate current order (ASC/DSC) randomly
     public void generateRandomOrder() {
         int a = (int)(Math.random()*10);
         if(a < 5) {
